@@ -4,9 +4,8 @@ print(tf.__version__)
 import cv2
 import pathlib
 
-# interpreter = tf.lite.Interpreter(model_path="blazeface.tflite")
-interpreter = tf.lite.Interpreter(model_path="no_quant.tflite")
-# interpreter = tf.lite.Interpreter(model_path="blazeface_obj_api.tflite")
+
+interpreter = tf.lite.Interpreter(model_path="blazeface_quant.tflite")
 
 input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
@@ -30,7 +29,7 @@ def draw_rect(image, box):
 #     if file.suffix != '.jpg' and file.suffix != '.png':
 #         continue
 
-cap = cv2.VideoCapture("/home/arm/Videos/vlc-record-2020-08-12-13h14m54s-August-04-2020-7 am-alec2-up.mkv-.mp4")
+cap = cv2.VideoCapture("facetest.mp4")
 (grabbed, frame) = cap.read()
 fshape = frame.shape
 fheight = fshape[0]
@@ -40,13 +39,13 @@ while(True):
     if ret:
         # img = cv2.imread(r"{}".format(file.resolve()))
         orig_img=img
-        img=img.astype(np.float32) #for float model
-        img = img/255.0 
+        # img=img.astype(np.float32) #for float model
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        # new_img = cv2.resize(img, (300, 300)) 
-        new_img = cv2.resize(img, (128, 128))
+        # new_img = cv2.resize(img, (300, 300)) #for Mobilenet
+        new_img = cv2.resize(img, (128, 128),cv2.INTER_AREA) #for blazeface
+        new_img = new_img.reshape([1, 128, 128, 3])
         
-        interpreter.set_tensor(input_details[0]['index'], [new_img])
+        interpreter.set_tensor(input_details[0]['index'], new_img)
 
         interpreter.invoke()
         rects = interpreter.get_tensor(
