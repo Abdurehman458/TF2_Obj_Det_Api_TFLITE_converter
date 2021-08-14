@@ -17,10 +17,10 @@ python3 export_tflite_graph_tf2.py \
     --trained_checkpoint_dir trained_models/ssd_v2/checkpoint \
     --output_directory tflite_models/saved_models
 ```
-*export_tflite_graph_tf2.py is available in TF OBJ API so TF OBJ API installation is required.
+ *export_tflite_graph_tf2.py is available in TF OBJ API so TF OBJ API installation is required.
 
 2. Now run tflite_converter.py (setup path of saved model according to requirment)
 
-'''
+```
 python3 tflite_converter.py
-'''
+```
