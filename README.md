@@ -24,4 +24,3 @@ python3 export_tflite_graph_tf2.py \
 '''
 python3 tflite_converter.py
 '''
-
