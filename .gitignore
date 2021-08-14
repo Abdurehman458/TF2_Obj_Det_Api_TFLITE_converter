@@ -1,0 +1,4 @@
+img/*
+venv/*
+tflite_converter(old).py
+facetest.mp4
